@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*" # 跨域处理 允许所有的域
+            allowedMethods: # 支持的方法
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      routes:
+        #认证中心
+        - id: mall-auth
+          uri: lb://mall-auth
+          predicates:
+            - Path=/mall/api/auth/*
+          filter:
+            - StripPrefix=3
+            - PrefixPath=/
